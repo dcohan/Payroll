@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PayrollModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartDate" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreationDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeIncome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="AnnualSalary" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="SuperTax" Type="int" Nullable="false" />
+          <Property Name="CreationDateTim" Type="datetimeoffset" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payroll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="PaidDate" Type="datetimeoffset" Precision="7" />
+          <Property Name="WorkedDays" Type="int" Nullable="false" />
+          <Property Name="CreationDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="EmployeeIncomeId" Type="int" Nullable="false" />
+          <Property Name="TaxRateId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaxRate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="GrossIncomeBase" Type="int" Nullable="false" />
+          <Property Name="GrossIncomeTop" Type="int" Nullable="false" />
+          <Property Name="TaxRate" Type="int" Nullable="false" />
+          <Property Name="CreationDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmployeeIncome_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeIncome" Type="Self.EmployeeIncome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeIncome">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_EmployeeIncome">
+          <End Role="EmployeeIncome" Type="Self.EmployeeIncome" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeIncome">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="EmployeeIncomeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_TaxRate">
+          <End Role="TaxRate" Type="Self.TaxRate" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaxRate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="TaxRateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PayrollModelStoreContainer">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeIncome" EntityType="Self.EmployeeIncome" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaxRate" EntityType="Self.TaxRate" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EmployeeIncome_Employee" Association="Self.FK_EmployeeIncome_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeIncome" EntitySet="EmployeeIncome" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_EmployeeIncome" Association="Self.FK_Payroll_EmployeeIncome">
+            <End Role="EmployeeIncome" EntitySet="EmployeeIncome" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_TaxRate" Association="Self.FK_Payroll_TaxRate">
+            <End Role="TaxRate" EntitySet="TaxRate" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PayrollModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StartDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="CreationDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <NavigationProperty Name="EmployeeIncomes" Relationship="PayrollModel.FK_EmployeeIncome_Employee" FromRole="Employee" ToRole="EmployeeIncome" />
+        </EntityType>
+        <EntityType Name="EmployeeIncome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="AnnualSalary" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="SuperTax" Type="Int32" Nullable="false" />
+          <Property Name="CreationDateTim" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Employee" Relationship="PayrollModel.FK_EmployeeIncome_Employee" FromRole="EmployeeIncome" ToRole="Employee" />
+          <NavigationProperty Name="Payrolls" Relationship="PayrollModel.FK_Payroll_EmployeeIncome" FromRole="EmployeeIncome" ToRole="Payroll" />
+        </EntityType>
+        <EntityType Name="Payroll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="PaidDate" Type="DateTimeOffset" Precision="7" />
+          <Property Name="WorkedDays" Type="Int32" Nullable="false" />
+          <Property Name="CreationDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="EmployeeIncomeId" Type="Int32" Nullable="false" />
+          <Property Name="TaxRateId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeIncome" Relationship="PayrollModel.FK_Payroll_EmployeeIncome" FromRole="Payroll" ToRole="EmployeeIncome" />
+          <NavigationProperty Name="TaxRate" Relationship="PayrollModel.FK_Payroll_TaxRate" FromRole="Payroll" ToRole="TaxRate" />
+        </EntityType>
+        <EntityType Name="TaxRate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="GrossIncomeBase" Type="Int32" Nullable="false" />
+          <Property Name="GrossIncomeTop" Type="Int32" Nullable="false" />
+          <Property Name="TaxRate1" Type="Int32" Nullable="false" />
+          <Property Name="CreationDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Payrolls" Relationship="PayrollModel.FK_Payroll_TaxRate" FromRole="TaxRate" ToRole="Payroll" />
+        </EntityType>
+        <EntityContainer Name="PayrollEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EmployeeIncomes" EntityType="Self.EmployeeIncome" />
+          <EntitySet Name="Payrolls" EntityType="Self.Payroll" />
+          <EntitySet Name="TaxRates" EntityType="Self.TaxRate" />
+          <AssociationSet Name="FK_EmployeeIncome_Employee" Association="PayrollModel.FK_EmployeeIncome_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeIncome" EntitySet="EmployeeIncomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_EmployeeIncome" Association="PayrollModel.FK_Payroll_EmployeeIncome">
+            <End Role="EmployeeIncome" EntitySet="EmployeeIncomes" />
+            <End Role="Payroll" EntitySet="Payrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_TaxRate" Association="PayrollModel.FK_Payroll_TaxRate">
+            <End Role="TaxRate" EntitySet="TaxRates" />
+            <End Role="Payroll" EntitySet="Payrolls" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_EmployeeIncome_Employee">
+          <End Type="PayrollModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="PayrollModel.EmployeeIncome" Role="EmployeeIncome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeIncome">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_EmployeeIncome">
+          <End Type="PayrollModel.EmployeeIncome" Role="EmployeeIncome" Multiplicity="1" />
+          <End Type="PayrollModel.Payroll" Role="Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeIncome">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="EmployeeIncomeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_TaxRate">
+          <End Type="PayrollModel.TaxRate" Role="TaxRate" Multiplicity="1" />
+          <End Type="PayrollModel.Payroll" Role="Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaxRate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="TaxRateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PayrollModelStoreContainer" CdmEntityContainer="PayrollEntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="PayrollModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeIncomes">
+            <EntityTypeMapping TypeName="PayrollModel.EmployeeIncome">
+              <MappingFragment StoreEntitySet="EmployeeIncome">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="AnnualSalary" ColumnName="AnnualSalary" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="SuperTax" ColumnName="SuperTax" />
+                <ScalarProperty Name="CreationDateTim" ColumnName="CreationDateTim" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payrolls">
+            <EntityTypeMapping TypeName="PayrollModel.Payroll">
+              <MappingFragment StoreEntitySet="Payroll">
+                <ScalarProperty Name="TaxRateId" ColumnName="TaxRateId" />
+                <ScalarProperty Name="EmployeeIncomeId" ColumnName="EmployeeIncomeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="WorkedDays" ColumnName="WorkedDays" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaxRates">
+            <EntityTypeMapping TypeName="PayrollModel.TaxRate">
+              <MappingFragment StoreEntitySet="TaxRate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="GrossIncomeBase" ColumnName="GrossIncomeBase" />
+                <ScalarProperty Name="GrossIncomeTop" ColumnName="GrossIncomeTop" />
+                <ScalarProperty Name="TaxRate1" ColumnName="TaxRate" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

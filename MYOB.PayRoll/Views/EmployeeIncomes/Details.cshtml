@@ -1,0 +1,58 @@
+﻿@model MYOB.PayRoll.Entities.EmployeeIncome
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmployeeIncome</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AnnualSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualSalary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SuperTax)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SuperTax)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDateTim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreationDateTim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

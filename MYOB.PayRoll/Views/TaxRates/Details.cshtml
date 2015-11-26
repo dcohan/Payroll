@@ -1,0 +1,66 @@
+﻿@model MYOB.PayRoll.Entities.TaxRate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaxRate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Month)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Month)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GrossIncomeBase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GrossIncomeBase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GrossIncomeTop)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GrossIncomeTop)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxRate1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxRate1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreationDateTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
