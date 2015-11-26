@@ -47,10 +47,11 @@ namespace MYOB.PayRoll.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,LastName,StartDate,CreationDateTime")] Employee employee)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,LastName,StartDate")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                employee.CreationDateTime = DateTimeOffset.UtcNow;
                 db.Employees.Add(employee);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

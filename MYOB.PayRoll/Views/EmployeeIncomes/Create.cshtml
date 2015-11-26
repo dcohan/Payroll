@@ -40,10 +40,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SuperTax, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SuperRate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SuperTax, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SuperTax, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.SuperRate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SuperRate, "", new { @class = "text-danger" })
             </div>
         </div>
 

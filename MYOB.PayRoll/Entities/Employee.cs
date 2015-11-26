@@ -11,7 +11,9 @@ namespace MYOB.PayRoll.Entities
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Employee
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,6 +25,8 @@ namespace MYOB.PayRoll.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
+
+        [DataType(DataType.Date)]
         public System.DateTimeOffset StartDate { get; set; }
         public System.DateTimeOffset CreationDateTime { get; set; }
     

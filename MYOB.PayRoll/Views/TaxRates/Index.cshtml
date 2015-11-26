@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Year)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Month)
+            @Html.DisplayNameFor(model => model.Version)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.GrossIncomeBase)
@@ -29,6 +29,9 @@
         <th>
             @Html.DisplayNameFor(model => model.CreationDateTime)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaxBase)
+        </th>
         <th></th>
     </tr>
 
@@ -38,7 +41,7 @@
             @Html.DisplayFor(modelItem => item.Year)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Month)
+            @Html.DisplayFor(modelItem => item.Version)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.GrossIncomeBase)
@@ -51,6 +54,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CreationDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaxBase)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="8220f8aa540a44c599c6d03900923c14" Name="Diagram1">
-        <EntityTypeShape EntityType="PayrollModel.Employee" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PayrollModel.EmployeeIncome" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PayrollModel.Payroll" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PayrollModel.TaxRate" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PayrollModel.Employee" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="PayrollModel.EmployeeIncome" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="PayrollModel.Payroll" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="PayrollModel.TaxRate" Width="1.5" PointX="3" PointY="5.125" />
         <AssociationConnector Association="PayrollModel.FK_EmployeeIncome_Employee" />
         <AssociationConnector Association="PayrollModel.FK_Payroll_EmployeeIncome" />
         <AssociationConnector Association="PayrollModel.FK_Payroll_TaxRate" />

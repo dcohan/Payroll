@@ -11,7 +11,9 @@ namespace MYOB.PayRoll.Entities
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TaxRate
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,12 +23,15 @@ namespace MYOB.PayRoll.Entities
         }
     
         public int Id { get; set; }
+        [Range(2010, 2020)]
         public int Year { get; set; }
-        public int Month { get; set; }
+        public int Version { get; set; }
         public int GrossIncomeBase { get; set; }
         public int GrossIncomeTop { get; set; }
-        public int TaxRate1 { get; set; }
+        [DisplayName("Rate")]
+        public double TaxRate1 { get; set; }
         public System.DateTimeOffset CreationDateTime { get; set; }
+        public Nullable<int> TaxBase { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payroll> Payrolls { get; set; }

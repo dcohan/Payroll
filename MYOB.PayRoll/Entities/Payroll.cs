@@ -11,11 +11,15 @@ namespace MYOB.PayRoll.Entities
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Payroll
     {
         public int Id { get; set; }
+
+        [Range(2010, 2020)]
         public int Year { get; set; }
+        [Range(1, 12)]
         public int Month { get; set; }
         public Nullable<System.DateTimeOffset> PaidDate { get; set; }
         public int WorkedDays { get; set; }

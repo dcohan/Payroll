@@ -49,10 +49,11 @@ namespace MYOB.PayRoll.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,EmployeeId,AnnualSalary,StartDate,SuperTax,CreationDateTim")] EmployeeIncome employeeIncome)
+        public async Task<ActionResult> Create([Bind(Include = "Id,EmployeeId,AnnualSalary,StartDate,SuperRate")] EmployeeIncome employeeIncome)
         {
             if (ModelState.IsValid)
             {
+                employeeIncome.CreationDateTime = DateTimeOffset.UtcNow;
                 db.EmployeeIncomes.Add(employeeIncome);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -83,7 +84,7 @@ namespace MYOB.PayRoll.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,EmployeeId,AnnualSalary,StartDate,SuperTax,CreationDateTim")] EmployeeIncome employeeIncome)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,EmployeeId,AnnualSalary,StartDate,CreationDateTime,SuperRate")] EmployeeIncome employeeIncome)
         {
             if (ModelState.IsValid)
             {

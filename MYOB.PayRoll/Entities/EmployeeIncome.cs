@@ -11,7 +11,8 @@ namespace MYOB.PayRoll.Entities
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class EmployeeIncome
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,9 +24,11 @@ namespace MYOB.PayRoll.Entities
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public int AnnualSalary { get; set; }
+
+        [DataType(DataType.Date)]
         public System.DateTimeOffset StartDate { get; set; }
-        public int SuperTax { get; set; }
-        public System.DateTimeOffset CreationDateTim { get; set; }
+        public System.DateTimeOffset CreationDateTime { get; set; }
+        public int SuperRate { get; set; }
     
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -23,8 +23,8 @@
           <Property Name="EmployeeId" Type="int" Nullable="false" />
           <Property Name="AnnualSalary" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="SuperTax" Type="int" Nullable="false" />
-          <Property Name="CreationDateTim" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="CreationDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="SuperRate" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Payroll">
           <Key>
@@ -45,11 +45,12 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Year" Type="int" Nullable="false" />
-          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="Version" Type="int" Nullable="false" />
           <Property Name="GrossIncomeBase" Type="int" Nullable="false" />
           <Property Name="GrossIncomeTop" Type="int" Nullable="false" />
-          <Property Name="TaxRate" Type="int" Nullable="false" />
+          <Property Name="TaxRate" Type="float" Nullable="false" />
           <Property Name="CreationDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="TaxBase" Type="int" />
         </EntityType>
         <Association Name="FK_EmployeeIncome_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
@@ -109,13 +110,31 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PayrollModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PayrollEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="PayrollModel.Employee" />
+          <EntitySet Name="EmployeeIncomes" EntityType="PayrollModel.EmployeeIncome" />
+          <EntitySet Name="Payrolls" EntityType="PayrollModel.Payroll" />
+          <EntitySet Name="TaxRates" EntityType="PayrollModel.TaxRate" />
+          <AssociationSet Name="FK_EmployeeIncome_Employee" Association="PayrollModel.FK_EmployeeIncome_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeIncome" EntitySet="EmployeeIncomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_EmployeeIncome" Association="PayrollModel.FK_Payroll_EmployeeIncome">
+            <End Role="EmployeeIncome" EntitySet="EmployeeIncomes" />
+            <End Role="Payroll" EntitySet="Payrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_TaxRate" Association="PayrollModel.FK_Payroll_TaxRate">
+            <End Role="TaxRate" EntitySet="TaxRates" />
+            <End Role="Payroll" EntitySet="Payrolls" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="StartDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="CreationDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <NavigationProperty Name="EmployeeIncomes" Relationship="PayrollModel.FK_EmployeeIncome_Employee" FromRole="Employee" ToRole="EmployeeIncome" />
@@ -128,8 +147,8 @@
           <Property Name="EmployeeId" Type="Int32" Nullable="false" />
           <Property Name="AnnualSalary" Type="Int32" Nullable="false" />
           <Property Name="StartDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="SuperTax" Type="Int32" Nullable="false" />
-          <Property Name="CreationDateTim" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="CreationDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="SuperRate" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="PayrollModel.FK_EmployeeIncome_Employee" FromRole="EmployeeIncome" ToRole="Employee" />
           <NavigationProperty Name="Payrolls" Relationship="PayrollModel.FK_Payroll_EmployeeIncome" FromRole="EmployeeIncome" ToRole="Payroll" />
         </EntityType>
@@ -154,31 +173,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
           <Property Name="GrossIncomeBase" Type="Int32" Nullable="false" />
           <Property Name="GrossIncomeTop" Type="Int32" Nullable="false" />
-          <Property Name="TaxRate1" Type="Int32" Nullable="false" />
+          <Property Name="TaxRate1" Type="Double" Nullable="false" />
           <Property Name="CreationDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="TaxBase" Type="Int32" />
           <NavigationProperty Name="Payrolls" Relationship="PayrollModel.FK_Payroll_TaxRate" FromRole="TaxRate" ToRole="Payroll" />
         </EntityType>
-        <EntityContainer Name="PayrollEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Employees" EntityType="Self.Employee" />
-          <EntitySet Name="EmployeeIncomes" EntityType="Self.EmployeeIncome" />
-          <EntitySet Name="Payrolls" EntityType="Self.Payroll" />
-          <EntitySet Name="TaxRates" EntityType="Self.TaxRate" />
-          <AssociationSet Name="FK_EmployeeIncome_Employee" Association="PayrollModel.FK_EmployeeIncome_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="EmployeeIncome" EntitySet="EmployeeIncomes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Payroll_EmployeeIncome" Association="PayrollModel.FK_Payroll_EmployeeIncome">
-            <End Role="EmployeeIncome" EntitySet="EmployeeIncomes" />
-            <End Role="Payroll" EntitySet="Payrolls" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Payroll_TaxRate" Association="PayrollModel.FK_Payroll_TaxRate">
-            <End Role="TaxRate" EntitySet="TaxRates" />
-            <End Role="Payroll" EntitySet="Payrolls" />
-          </AssociationSet>
-        </EntityContainer>
         <Association Name="FK_EmployeeIncome_Employee">
           <End Type="PayrollModel.Employee" Role="Employee" Multiplicity="1" />
           <End Type="PayrollModel.EmployeeIncome" Role="EmployeeIncome" Multiplicity="*" />
@@ -215,7 +217,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -224,23 +226,23 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="PayrollModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmployeeIncomes">
             <EntityTypeMapping TypeName="PayrollModel.EmployeeIncome">
               <MappingFragment StoreEntitySet="EmployeeIncome">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="AnnualSalary" ColumnName="AnnualSalary" />
+                <ScalarProperty Name="SuperRate" ColumnName="SuperRate" />
+                <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="SuperTax" ColumnName="SuperTax" />
-                <ScalarProperty Name="CreationDateTim" ColumnName="CreationDateTim" />
+                <ScalarProperty Name="AnnualSalary" ColumnName="AnnualSalary" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -249,25 +251,26 @@
               <MappingFragment StoreEntitySet="Payroll">
                 <ScalarProperty Name="TaxRateId" ColumnName="TaxRateId" />
                 <ScalarProperty Name="EmployeeIncomeId" ColumnName="EmployeeIncomeId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
-                <ScalarProperty Name="WorkedDays" ColumnName="WorkedDays" />
                 <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+                <ScalarProperty Name="WorkedDays" ColumnName="WorkedDays" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TaxRates">
             <EntityTypeMapping TypeName="PayrollModel.TaxRate">
               <MappingFragment StoreEntitySet="TaxRate">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="GrossIncomeBase" ColumnName="GrossIncomeBase" />
-                <ScalarProperty Name="GrossIncomeTop" ColumnName="GrossIncomeTop" />
-                <ScalarProperty Name="TaxRate1" ColumnName="TaxRate" />
+                <ScalarProperty Name="TaxBase" ColumnName="TaxBase" />
                 <ScalarProperty Name="CreationDateTime" ColumnName="CreationDateTime" />
+                <ScalarProperty Name="TaxRate1" ColumnName="TaxRate" />
+                <ScalarProperty Name="GrossIncomeTop" ColumnName="GrossIncomeTop" />
+                <ScalarProperty Name="GrossIncomeBase" ColumnName="GrossIncomeBase" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
